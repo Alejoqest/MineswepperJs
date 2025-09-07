@@ -110,7 +110,6 @@ export const mineSwepper = (numRow, numCol, numMines, game, SetGame) => {
       return;
     const curSpace = board[row][col];
     curSpace.open = true;
-
     
     if (curSpace.mine) {
       game.hasFinished = true;
@@ -118,6 +117,7 @@ export const mineSwepper = (numRow, numCol, numMines, game, SetGame) => {
       editBoard(game, curSpace, {row, col});
       killTimer();
       endBoard(board, game);
+      renderFace(game);
       return;
     }
 

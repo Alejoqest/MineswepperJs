@@ -12,20 +12,25 @@ export const renderMineSwepper = (
   funNewGame,
   funPlayAgain
 ) => {
-  document.body.innerHTML = "";
+  //document.body.innerHTML = "";
 
-  const game = document.createElement("div");
-  game.classList.add("game");
+  for (const panel of gamePanels) {
+    const p = document.querySelector(`#${panel.id}`)
+    p.value = panel.value;
+    
+  }
+  //const game = document.createElement("div");
+  //game.classList.add("game");
 
-  const gameStatus = createTop(gamePanels);
-  const gameBoard = document.createElement("div");
+  //const gameStatus = createTop(gamePanels);
+  //const gameBoard = document.createElement("div");
   //const gameBottom = createBottom(gameInputs);
 
-  gameStatus.classList.add("status");
+  /*gameStatus.classList.add("status");
   gameBoard.classList.add("board");
   game.append(gameStatus, gameBoard);
   document.body.appendChild(game);
-  createSettings(gameInputs);
+  createSettings(gameInputs);*/
   addEvents(callback, funNewGame, funPlayAgain);
 };
 
