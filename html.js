@@ -26,32 +26,6 @@ export const renderMineSwepper = (
   addEvents(callback, funNewGame, funPlayAgain);
 };
 
-const createTop = (gamePanels) => {
-  const gameStatus = document.createElement("div");
-  for (let i = 0; i < statusContainers.length; i++) {
-    const div = createDivider(statusContainers[i].id);
-    div.append(
-      createInput(
-        gamePanels[i].id,
-        gamePanels[i].value,
-        gamePanels[i].classes,
-        gamePanels[i].inputType,
-        gamePanels[i].disabled
-      )
-    );
-    const append = [div];
-    gameStatus.append(...append);
-  }
-
-  const facePanel = createDivider("face-container");
-  const face = document.createElement("h1");
-  face.classList.add("face");
-  face.innerText = faces.normal;
-  facePanel.append(face);
-  gameStatus.append(facePanel);
-  return gameStatus;
-};
-
 export const addEvents = (callback, funNewGame, funPlayAgain) => {
   const btnGame = document.querySelector("#newGame");
   btnGame.addEventListener("click", () => {
@@ -61,6 +35,10 @@ export const addEvents = (callback, funNewGame, funPlayAgain) => {
   faceGame.addEventListener("click", () => {
     callback(funPlayAgain);
   });
+  const modalOpen = document.querySelector("#btn-open");
+  modalOpen.addEventListener("click", openSetting)
+  const modalClose = document.querySelector("#btn-close");
+  modalClose.addEventListener("click", closeSetting)
 };
 
 export const renderBoard = (
@@ -154,13 +132,30 @@ const getCell = (row, col) => {
   return document.querySelector(id);
 };
 
+const getSettings = () => {
+  return document.querySelector("#modal")
+}
+
+const openSetting = () => {
+  const settings = getSettings();
+  settings.classList.add("active");
+}
+
+export const closeSetting = () => {
+  const settings = getSettings();
+  settings.classList.remove("active");
+}
+
 export const renderFace = (game) => {
   const faceStatus = document.querySelector("h1");
-  faceStatus.innerText = game.hasFinished
-    ? !game.hasExploted
-      ? faces.win
-      : faces.loss
-    : faces.normal;
+  faceStatus.innerHTML = faces.click;
+  setTimeout(() => {
+    faceStatus.innerText = game.hasFinished
+      ? !game.hasExploted
+        ? faces.win
+        : faces.loss
+      : faces.normal;
+  }, 150)
 };
 
 const createDivider = (id, classes = []) => {
@@ -168,23 +163,6 @@ const createDivider = (id, classes = []) => {
   div.id = id;
   div.classList.add(...classes);
   return div;
-};
-
-const createLabel = (content, iFor) => {
-  const label = document.createElement("label");
-  label.htmlFor = iFor;
-  label.innerText = content;
-  return label;
-};
-
-const createInput = (id, value, classes, type = "text", disabled = false) => {
-  const input = document.createElement("input");
-  input.disabled = disabled;
-  input.type = type;
-  input.classList.add(...classes);
-  input.id = id;
-  input.value = value;
-  return input;
 };
 
 const createSpan = (id) => {
@@ -220,35 +198,4 @@ export const setWarning = (value) => {
   const warning = document.createElement("p");
   warning.innerText = value;
   div.append(warning);
-};
-
-const createSettings = (gameInputs) => {
-  const settings = createDivider("settings");
-  let settingAppend = [];
-  for (const inputRow of gameInputs) {
-    const divider = createDivider(`${inputRow.id}`, inputRow.classes);
-    for (const inputGame of inputRow.children) {
-      let divAppend = [];
-      const div = createDivider(`${inputGame.id}-divider`);
-      const input = createInput(
-        inputGame.id,
-        inputGame.value,
-        inputGame.classes,
-        inputGame.inputType
-      );
-      input.min = 1;
-      if (inputGame.label) {
-        const labelText = inputGame.label;
-        const label = createLabel(labelText, inputGame.id);
-        const br = document.createElement("br");
-        divAppend.push(label, br);
-      }
-      divAppend.push(input);
-      div.append(...divAppend);
-      divider.append(div);
-    }
-    settingAppend.push(divider);
-  }
-  settings.append(...settingAppend);
-  document.body.append(settings);
 };

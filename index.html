@@ -9,44 +9,58 @@
 </head>
 
 <body>
+    <!--<button class="setting-btn" id="btn-open">Sds</button>-->
     <div class="game">
-        <div class="status">
-            <div id="mine-container">
-                <input id="mines" type="text" class="panel" disabled />
-            </div>
-            <div id="time-container">
-                <input id="time" type="text" class="panel" disabled />
-            </div>
-            <div id="face-container">
-                <h1 class="face">🙂</h1>
+        <div class="top-game">
+            <div class="status">
+                <div id="mine-container">
+                    <input id="mines" type="text" class="panel" disabled />
+                </div>
+                <div id="time-container">
+                    <input id="time" type="text" class="panel" disabled />
+                </div>
+                <div id="face-container">
+                    <h1 class="face">🙂</h1>
+                </div>
             </div>
         </div>
         <div class="board"></div>
+        <div class="bottom-game">
+            <button class="btn" id="btn-open">Settings</button>
+        </div>
     </div>
-    <div id="settings">
-        <div id="first-row" class="bottom-row">
-            <div>
-                <label for="row">Rows : </label>
-                <br />
-                <input type="number" name="" id="row" class="setting" />
+    <div id="modal">
+        <div id="settings">
+            <div class="top-row">
+                <h1>Settings</h1>      
+                <span id="btn-close">&times;</span>
             </div>
-            <div>
-                <label for="col">Columns : </label>
-                <br />
-                <input type="number" name="" id="col" class="setting" />
+            <div class="bottom-row">     
             </div>
-            <div>
-                <label for="numMines">Mines : </label>
-                <br />
-                <input type="number" name="" id="numMines" class="setting" />
+            <div id="first-row" class="bottom-row">
+                <div class="input-row">
+                    <label for="row">Rows : </label>
+                    <br />
+                    <input type="number" name="" id="row" class="setting" />
+                </div>
+                <div class="input-row">
+                    <label for="col">Columns : </label>
+                    <br />
+                    <input type="number" name="" id="col" class="setting" />
+                </div>
+                <div class="input-row">
+                    <label for="numMines">Mines : </label>
+                    <br />
+                    <input type="number" name="" id="numMines" class="setting" />
+                </div>
             </div>
+            <div id="second-row" class="bottom-row">
+                <div id="newGame-divider" class="">
+                    <input type="button" class="btn" id="newGame" value="Update">
+                </div>
+            </div>
+            <div id="warning-row" class="bottom-row"></div>
         </div>
-        <div id="second-row" class="bottom-row">
-            <div id="newGame-divider" class="">
-                <input type="button" class="btn" id="newGame" value="Update">
-            </div>
-        </div>
-        <div id="warning-row" class="bottom-row"></div>
     </div>
     <script type="module" src="app.js"></script>
 </body>

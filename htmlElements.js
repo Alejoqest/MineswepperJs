@@ -10,6 +10,7 @@ export const statusContainers = [
 export const faces = {
   normal: `🙂`,
   loss: `😵`,
+  click: `😯`,
   win: `😎`,
 };
 

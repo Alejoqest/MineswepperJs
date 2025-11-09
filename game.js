@@ -1,6 +1,8 @@
 import {
+  closeSetting,
   editBoard,
   endBoard,
+  getInputs,
   renderBoard,
   renderFace,
   renderMineSwepper,
@@ -39,12 +41,11 @@ export const mineSwepper = () => {
       return;
     }
 
-    game = {
-      numRow: inputs.inputRow,
-      numCol: inputs.inputCol,
-      numMines: inputs.inputMines,
-      ...game,
-    };
+    closeSetting();
+
+    game.numRow = inputs.inputRow;
+    game.numCol = inputs.inputCol;
+    game.numMines = inputs.inputMines;
 
     setupGame();
   };
@@ -77,6 +78,7 @@ export const mineSwepper = () => {
     game.hasExploted = false;
     game.hasFinished = false;
     remainingMines = game.numMines;
+    renderFace(game);
     renderGame();
     renderBoard(board, game, cellAction, cellRevealed, cellFlaged);
   };
