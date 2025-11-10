@@ -32,6 +32,7 @@ input.panel {
     font-size: xx-large;
     width: 65px;
     margin: 0.5rem 0rem;
+    padding: .45rem 0rem;
     text-align: center;
 }
 
@@ -40,6 +41,7 @@ input.setting {
     border: 2px solid var(--c-bg-d);
     padding: .25rem;
     border-radius: 5px;
+    width: 50px;
 }
 
 .btn {
@@ -60,7 +62,7 @@ input.setting {
 
 .game,
 #settings {
-    padding: 1.25rem;
+    padding: .75rem;
     background-color: var(--c-bg);
     border: 5px outset var(--c-bg-dr);
     box-shadow: 0rem 0rem 1rem var(--c-bg-d);
@@ -131,7 +133,7 @@ input.setting {
     /*display: flex;
     justify-content: space-around;
     flex-wrap: wrap;*/
-    max-width: 290px;
+    max-width: 350px;
     align-items: center;
     height: fit-content;
 }
@@ -225,23 +227,15 @@ span.count-8 {
 
 #modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
     z-index: 1;
-    /* Sit on top */
     padding-top: 100px;
-    /* Location of the box */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
-    /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -252,6 +246,18 @@ span.count-8 {
 
 #settings {
     position: relative;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    background-color: var(--c-bg-vd);
+}
+
+.tr-start {
+    text-align: start;
 }
 
 #btn-close {
