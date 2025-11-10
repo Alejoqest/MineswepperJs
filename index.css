@@ -40,6 +40,7 @@ input.setting {
     border: 2px solid var(--c-bg-d);
     padding: .25rem;
     border-radius: 5px;
+    width: 50px;
 }
 
 .btn {
@@ -60,7 +61,7 @@ input.setting {
 
 .game,
 #settings {
-    padding: 1.25rem;
+    padding: .75rem;
     background-color: var(--c-bg);
     border: 5px outset var(--c-bg-dr);
     box-shadow: 0rem 0rem 1rem var(--c-bg-d);
@@ -131,7 +132,7 @@ input.setting {
     /*display: flex;
     justify-content: space-around;
     flex-wrap: wrap;*/
-    max-width: 290px;
+    max-width: 350px;
     align-items: center;
     height: fit-content;
 }

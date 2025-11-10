@@ -12,10 +12,9 @@ export const renderMineSwepper = (
   funNewGame,
   funPlayAgain
 ) => {
-
   for (const panel of gamePanels) {
-    const p = document.querySelector(`#${panel.id}`)
-    p.value = panel.value;    
+    const p = document.querySelector(`#${panel.id}`);
+    p.value = panel.value;
   }
 
   for (const input of gameInputs[0].children) {
@@ -36,9 +35,9 @@ export const addEvents = (callback, funNewGame, funPlayAgain) => {
     callback(funPlayAgain);
   });
   const modalOpen = document.querySelector("#btn-open");
-  modalOpen.addEventListener("click", openSetting)
+  modalOpen.addEventListener("click", openSetting);
   const modalClose = document.querySelector("#btn-close");
-  modalClose.addEventListener("click", closeSetting)
+  modalClose.addEventListener("click", closeSetting);
 };
 
 export const renderBoard = (
@@ -72,7 +71,7 @@ export const editBoard = (game, curCell, position) => {
   const cell = getCell(position.row, position.col);
   cell.classList.toggle("flag", curCell.flaged);
   cell.classList.toggle("open", curCell.open);
-  cell.innerText = (curCell.flaged)? cellContent.flag : ``;
+  cell.innerText = curCell.flaged ? cellContent.flag : ``;
   if (curCell.flaged) cell.classList.remove("open");
   if (curCell.open) {
     cell.classList.toggle("bomb", curCell.mine);
@@ -133,18 +132,18 @@ const getCell = (row, col) => {
 };
 
 const getSettings = () => {
-  return document.querySelector("#modal")
-}
+  return document.querySelector("#modal");
+};
 
 const openSetting = () => {
   const settings = getSettings();
   settings.classList.add("active");
-}
+};
 
 export const closeSetting = () => {
   const settings = getSettings();
   settings.classList.remove("active");
-}
+};
 
 export const renderFace = (game) => {
   const faceStatus = document.querySelector("h1");
@@ -155,7 +154,7 @@ export const renderFace = (game) => {
         ? faces.win
         : faces.loss
       : faces.normal;
-  }, 150)
+  }, 150);
 };
 
 const createDivider = (id, classes = []) => {
@@ -180,6 +179,20 @@ export const getInputs = () => {
     inputCol,
     inputMines,
   };
+};
+
+export const getRadioValue = () => {
+  const radios = document.getElementsByName("set-game");
+  let selectedValue;
+
+  for (const radio of radios) {
+    if (radio.checked) {
+      selectedValue = radio.value;
+      break;
+    }
+  }
+
+  return selectedValue;
 };
 
 export const setTimer = (time) => {

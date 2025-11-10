@@ -3,6 +3,7 @@ import {
   editBoard,
   endBoard,
   getInputs,
+  getRadioValue,
   renderBoard,
   renderFace,
   renderMineSwepper,
@@ -10,7 +11,12 @@ import {
   setTimer,
   setWarning,
 } from "./html.js";
-import { gameInputs, gamePanels, warnings } from "./htmlElements.js";
+import {
+  gameInputs,
+  gamePanels,
+  gameValues,
+  warnings,
+} from "./htmlElements.js";
 
 export const mineSwepper = () => {
   let board = [];
@@ -27,18 +33,31 @@ export const mineSwepper = () => {
   let remainingMines = game.numMines;
 
   const setGame = () => {
+    const val = getRadioValue();
+
+    setWarning("");
+
     const inputs = getInputs();
 
-    if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
-      setWarning(warnings.void);
-      return;
+    if (val != "custom") {
+      const values = gameValues;
+      inputs.inputRow = values[val].row;
+      inputs.inputCol = values[val].column;
+      inputs.inputMines = values[val].mines;
     }
 
-    const total = inputs.inputCol * inputs.inputRow;
+    if (val == "custom") {
+      if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
+        setWarning(warnings.void);
+        return;
+      }
 
-    if (inputs.inputMines > total) {
-      setWarning(warnings.mines);
-      return;
+      const total = inputs.inputCol * inputs.inputRow;
+
+      if (inputs.inputMines > total) {
+        setWarning(warnings.mines);
+        return;
+      }
     }
 
     closeSetting();
