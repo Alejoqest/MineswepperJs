@@ -81,6 +81,7 @@ export const mineSwepper = () => {
   };
 
   const setupGame = () => {
+    board = [];
     for (let i = 0; i < game.numRow; i++) {
       board[i] = [];
       for (let n = 0; n < game.numCol; n++) {
