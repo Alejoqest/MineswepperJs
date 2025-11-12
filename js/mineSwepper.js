@@ -22,39 +22,10 @@ export class MineSwepper {
     this.hasExploded = false;
   }
 
-  setGame = () => {
-    const val = getRadioValue();
-
-    setWarning("");
-
-    const inputs = getInputs();
-
-    if (val != "custom") {
-      const values = gameValues;
-      inputs.inputRow = values[val].row;
-      inputs.inputCol = values[val].column;
-      inputs.inputMines = values[val].mines;
-    }
-
-    if (val == "custom") {
-      if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
-        setWarning(warnings.void);
-        return;
-      }
-
-      const total = inputs.inputCol * inputs.inputRow;
-
-      if (inputs.inputMines > total) {
-        setWarning(warnings.mines);
-        return;
-      }
-    }
-
-    closeSetting();
-
-    this.numRows = inputs.inputRow;
-    this.numCols = inputs.inputCol;
-    this.numMines = inputs.inputMines;
+  setGame = (rows, cols, mines) => {
+    this.numRows = rows;
+    this.numCols = cols;
+    this.numMines = mines;
   };
 
   renderGame = () => {
