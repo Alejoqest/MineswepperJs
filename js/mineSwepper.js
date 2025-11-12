@@ -1,14 +1,4 @@
-import {
-    closeSetting,
-  editBoard,
-  endBoard,
-  getInputs,
-  getRadioValue,
-  renderBoard,
-  renderMineSwepper,
-  setWarning,
-} from "./html.js";
-import { gameInputs, gamePanels, gameValues, warnings } from "./htmlElements.js";
+import { editBoard, endBoard, renderBoard } from "./html.js";
 
 export class MineSwepper {
   constructor(rows, cols, mines) {
@@ -28,17 +18,6 @@ export class MineSwepper {
     this.numMines = mines;
   };
 
-  renderGame = () => {
-    //const gP = gamePanels(this.getRemainingMines, this.getTime);
-    const values = { 
-      row: this.numRows,
-      col: this.numCols,
-      mines: this.numMines,
-    };
-    const gI = gameInputs(values);
-    renderMineSwepper(gI);
-  };
-
   setupGame = () => {
     this.board = [];
     for (let i = 0; i < this.numRows; i++) {
@@ -56,11 +35,7 @@ export class MineSwepper {
     this.hasExploded = false;
     this.hasFinished = false;
     this.remainingMines = this.numMines;
-    this.renderGame();
-    renderBoard(
-      this.board,
-      this.getGame(),
-    );
+    renderBoard(this.board);
   };
 
   startGame = (curRow, curCol) => {
@@ -144,7 +119,6 @@ export class MineSwepper {
         }
       }
     }
-    //renderBoard(board, this.getGame(), cellAction, cellRevealed, cellFlaged);
     editBoard(this.getGame(), curSpace, { row, col });
   };
 

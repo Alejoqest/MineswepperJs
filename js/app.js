@@ -1,15 +1,18 @@
-import { mineSwepper } from "./game.js";
-import { closeSetting, openSetting, setRemainingMines } from "./html.js";
+import { closeSetting, openSetting } from "./html.js";
 import { setEvents } from "./htmlElements.js";
 import { MineSwepper } from "./mineSwepper.js";
 import { Settings } from "./setting.js";
 import { Status } from "./status.js";
 
+let row = 8;
+let col = 8;
+let mines = 10;
+
 //mineSwepper();
 document.addEventListener("DOMContentLoaded", () => {
-  const game = new MineSwepper(8, 8, 10);
+  const game = new MineSwepper(row, col, mines);
   const status = new Status();
-  const setting = new Settings();
+  const setting = new Settings(row, col, mines);
 
   setEvents({
     onReset: () => {
@@ -19,9 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     onNewGame: () => {
       status.killTimer();
-      const { row, col, mines } = setting.setGame();
-      game.setGame(row, col, mines);
-      init();
+      const { row, col, mines, error } = setting.setGame();
+      if (!error) {
+        game.setGame(row, col, mines);
+        init();
+      }
     },
     onOpen: openSetting,
     onClose: closeSetting,

@@ -1,55 +1,15 @@
-import {
-  cellContent,
-  elements,
-  faces,
-  gameInputs,
-  statusContainers,
-} from "./htmlElements.js";
+import { cellContent, elements } from "./htmlElements.js";
 
-
-
-export const renderMineSwepper = (
-  //gamePanels,
-  gameInputs,
-) => {
-  /*for (const panel of gamePanels) {
-    const p = document.querySelector(`#${panel.id}`);
-    p.value = panel.value;
-  }*/
-
-  for (const input of gameInputs[0].children) {
-    const i = document.querySelector(`#${input.id}`);
-    i.value = input.value;
-  }
-
-  //addEvents(callback, funNewGame, funPlayAgain);
+export const setInputs = (row, col, mines) => {
+  elements.rowInput.value = row;
+  elements.colInput.value = col;
+  elements.mineInput.value = mines;
 };
 
-export const addEvents = (callback, funNewGame, funPlayAgain) => {
-  const btnGame = document.querySelector("#newGame");
-  btnGame.addEventListener("click", () => {
-    callback(funNewGame);
-  });
-  const faceGame = document.querySelector("#face-container h1");
-  faceGame.addEventListener("click", () => {
-    callback(funPlayAgain);
-  });
-  const modalOpen = document.querySelector("#btn-open");
-  modalOpen.addEventListener("click", openSetting);
-  const modalClose = document.querySelector("#btn-close");
-  modalClose.addEventListener("click", closeSetting);
-};
-
-export const renderBoard = (
-  board,
-  game,
-  //cellAction,
-  //cellRevealed,
-  //cellFlaged
-) => {
+export const renderBoard = (board) => {
   const numRow = board.length;
   const numCol = board[0].length;
-  const gameBoard = document.querySelector(".board");
+  const gameBoard = elements.board;
   gameBoard.innerHTML = "";
   for (let i = 0; i < numRow; i++) {
     const row = createDivider(`row-${i}`, ["row"]);
@@ -57,12 +17,6 @@ export const renderBoard = (
       const cell = createSpan(`c-${i}-${n}`);
       cell.dataset.row = i;
       cell.dataset.col = n;
-      /*cell.addEventListener("click", (e) => {
-        cellAction(e, i, n, cellRevealed);
-      });
-      cell.addEventListener("contextmenu", (e) => {
-        cellAction(e, i, n, cellFlaged);
-      });*/
       row.appendChild(cell);
     }
     gameBoard.appendChild(row);
@@ -129,22 +83,14 @@ export const endBoard = (board, game) => {
 };
 
 const getCell = (row, col) => {
-  const id = `#c-${row}-${col}`;
-  return document.querySelector(id);
+  return elements.cell(row, col);
 };
-
-const getSettings = () => {
-  return document.querySelector("#modal");
-};
-
 export const openSetting = () => {
-  const settings = getSettings();
-  settings.classList.add("active");
+  elements.modal.classList.add("active");
 };
 
 export const closeSetting = () => {
-  const settings = getSettings();
-  settings.classList.remove("active");
+  elements.modal.classList.remove("active");
 };
 
 export const renderFace = (status) => {
@@ -165,38 +111,30 @@ const createSpan = (id) => {
 };
 
 export const getInputs = () => {
-  const inputRow = document.querySelector("#row").value;
-  const inputCol = document.querySelector("#col").value;
-  const inputMines = document.querySelector("#numMines").value;
   return {
-    inputRow,
-    inputCol,
-    inputMines,
+    inputRow: elements.rowInput.value,
+    inputCol: elements.colInput.value,
+    inputMines: elements.mineInput.value,
   };
 };
 
 export const getRadioValue = () => {
-  const radios = document.getElementsByName("set-game");
   let selectedValue;
-
-  for (const radio of radios) {
+  for (const radio of elements.newGameRadios) {
     if (radio.checked) {
       selectedValue = radio.value;
       break;
     }
   }
-
   return selectedValue;
 };
 
 export const setTimer = (time) => {
-  const timer = document.querySelector("#time");
-  timer.value = time;
+  elements.timerDisplay.value = time;
 };
 
 export const setRemainingMines = (remainingMines) => {
-  const mines = document.querySelector("#mines");
-  mines.value = remainingMines;
+  elements.mineDisplay.value = remainingMines;
 };
 
 export const setWarning = (value) => {
