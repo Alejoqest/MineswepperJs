@@ -1,16 +1,20 @@
 import {
+    closeSetting,
   editBoard,
   endBoard,
+  getInputs,
+  getRadioValue,
   renderBoard,
   renderFace,
   renderMineSwepper,
   setRemainingMines,
   setTimer,
+  setWarning,
 } from "./html.js";
-import { gameInputs, gamePanels } from "./htmlElements.js";
+import { gameInputs, gamePanels, gameValues, warnings } from "./htmlElements.js";
 
 export class MineSwepper {
-  constructor( rows, cols, mines ) {
+  constructor(rows, cols, mines) {
     this.numRows = rows;
     this.numCols = cols;
     this.numMines = mines;
@@ -22,6 +26,45 @@ export class MineSwepper {
     this.hasFinished = false;
     this.hasExploded = false;
   }
+
+  setGame = () => {
+    const val = getRadioValue();
+
+    setWarning("");
+
+    const inputs = getInputs();
+
+    if (val != "custom") {
+      const values = gameValues;
+      inputs.inputRow = values[val].row;
+      inputs.inputCol = values[val].column;
+      inputs.inputMines = values[val].mines;
+    }
+
+    if (val == "custom") {
+      if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
+        setWarning(warnings.void);
+        return;
+      }
+
+      const total = inputs.inputCol * inputs.inputRow;
+
+      if (inputs.inputMines > total) {
+        setWarning(warnings.mines);
+        return;
+      }
+    }
+
+    closeSetting();
+
+    this.killTimer();
+
+    this.numRows = inputs.inputRow;
+    this.numCols = inputs.inputCol;
+    this.numMines = inputs.inputMines;
+
+    this.setupGame();
+  };
 
   renderGame = () => {
     const gP = gamePanels(this.getRemainingMines, this.getTime);
@@ -54,7 +97,13 @@ export class MineSwepper {
     this.remainingMines = this.numMines;
     renderFace(this.getGame());
     this.renderGame();
-    renderBoard(this.board, this.getGame(), this.cellAction, this.cellRevealed, this.cellFlaged);
+    renderBoard(
+      this.board,
+      this.getGame(),
+      this.cellAction,
+      this.cellRevealed,
+      this.cellFlaged
+    );
   };
 
   startGame = (curRow, curCol) => {

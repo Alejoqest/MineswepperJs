@@ -7,6 +7,43 @@ export const statusContainers = [
   },
 ];
 
+export const elements = {
+  resetButton: document.querySelector("#face-container"),
+  newGameButton: document.querySelector("#newGame"),
+  closeButton: document.querySelector("#btn-close"),
+  openButton: document.querySelector("#btn-open"),
+  board: document.querySelector("#board"),
+  timerDisplay: document.querySelector("#time-container"),
+  mineDisplay: document.querySelector("#mine-container"),
+};
+
+export const setEvents = ({
+  onReset,
+  onNewGame,
+  onClick,
+  onRightClick,
+  onOpen,
+  onClose,
+}) => {
+  elements.resetButton.addEventListener("click", onReset);
+  elements.newGameButton.addEventListener("click", onNewGame)
+  elements.board.addEventListener("click", (e) => {
+    const cell = e.target.closest("span");
+    if (!cell) return;
+    const { row, col } = cell.dataset;
+    onClick(parseInt(row), parseInt(col));
+  });
+  elements.board.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const cell = e.target.closest("span");
+    if (!cell) return;
+    const { row, col } = cell.dataset;
+    onRightClick(parseInt(row), parseInt(col));
+  });
+  elements.openButton.addEventListener("click", onOpen);
+  elements.closeButton.addEventListener("click", onClose);
+};
+
 export const faces = {
   normal: `🙂`,
   loss: `😵`,

@@ -22,7 +22,7 @@ export const renderMineSwepper = (
     i.value = input.value;
   }
 
-  addEvents(callback, funNewGame, funPlayAgain);
+  //addEvents(callback, funNewGame, funPlayAgain);
 };
 
 export const addEvents = (callback, funNewGame, funPlayAgain) => {
@@ -55,12 +55,14 @@ export const renderBoard = (
     const row = createDivider(`row-${i}`, ["row"]);
     for (let n = 0; n < numCol; n++) {
       const cell = createSpan(`c-${i}-${n}`);
-      cell.addEventListener("click", (e) => {
+      cell.dataset.row = i;
+      cell.dataset.col = n;
+      /*cell.addEventListener("click", (e) => {
         cellAction(e, i, n, cellRevealed);
       });
       cell.addEventListener("contextmenu", (e) => {
         cellAction(e, i, n, cellFlaged);
-      });
+      });*/
       row.appendChild(cell);
     }
     gameBoard.appendChild(row);
@@ -135,7 +137,7 @@ const getSettings = () => {
   return document.querySelector("#modal");
 };
 
-const openSetting = () => {
+export const openSetting = () => {
   const settings = getSettings();
   settings.classList.add("active");
 };
