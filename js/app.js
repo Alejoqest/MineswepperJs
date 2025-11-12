@@ -1,6 +1,6 @@
 import { closeSetting, openSetting } from "./html.js";
 import { setEvents } from "./htmlElements.js";
-import { MineSwepper } from "./mineSwepper.js";
+import { Game } from "./game.js";
 import { Settings } from "./setting.js";
 import { Status } from "./status.js";
 
@@ -10,7 +10,7 @@ let mines = 10;
 
 //mineSwepper();
 document.addEventListener("DOMContentLoaded", () => {
-  const game = new MineSwepper(row, col, mines);
+  const game = new Game(row, col, mines);
   const status = new Status();
   const setting = new Settings(row, col, mines);
 
