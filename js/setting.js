@@ -5,7 +5,6 @@ import {
   setInputs,
   setWarning,
 } from "./html.js";
-import { gameValues, warnings } from "./htmlElements.js";
 
 export class Settings {
   constructor(row, col, mines) {
@@ -27,7 +26,7 @@ export class Settings {
       let inputs = getInputs();
       if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
         setWarning(warnings.void);
-        return { error: warnings.void};
+        return { error: warnings.void };
       }
 
       const total = inputs.inputCol * inputs.inputRow;
@@ -47,3 +46,26 @@ export class Settings {
     };
   };
 }
+
+const warnings = {
+  void: `There's no values.`,
+  mines: `There can't be more mines than cells.`,
+};
+
+const gameValues = {
+  beginner: {
+    row: 8,
+    column: 8,
+    mines: 10,
+  },
+  intermediate: {
+    row: 16,
+    column: 16,
+    mines: 30,
+  },
+  expert: {
+    row: 16,
+    column: 30,
+    mines: 99,
+  },
+};

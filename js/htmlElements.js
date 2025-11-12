@@ -51,26 +51,3 @@ export const cellContent = {
   bomb: `💣`,
   blank: ``,
 };
-
-export const gameValues = {
-  beginner: {
-    row: 8,
-    column: 8,
-    mines: 10,
-  },
-  intermediate: {
-    row: 16,
-    column: 16,
-    mines: 30,
-  },
-  expert: {
-    row: 16,
-    column: 30,
-    mines: 99,
-  },
-};
-
-export const warnings = {
-  void: `There's no values.`,
-  mines: `There can't be more mines than cells.`,
-};
