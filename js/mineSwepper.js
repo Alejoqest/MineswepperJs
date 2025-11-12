@@ -104,7 +104,7 @@ export class MineSwepper {
     if (curSpace.mine) {
       this.hasFinished = true;
       this.hasExploded = true;
-      editBoard(this.getGame(), curSpace, { row, col });
+      editBoard(this.getGame(), curSpace, row, col);
       endBoard(this.board, this.getGame());
       return;
     }
@@ -119,7 +119,7 @@ export class MineSwepper {
         }
       }
     }
-    editBoard(this.getGame(), curSpace, { row, col });
+    editBoard(this.getGame(), curSpace, row, col);
   };
 
   cellFlaged = (row, col) => {
@@ -137,7 +137,7 @@ export class MineSwepper {
     this.remainingMines = curSpace.flaged
       ? this.remainingMines - 1
       : this.remainingMines + 1;
-    editBoard(this.getGame(), curSpace, { row, col });
+    editBoard(this.getGame(), curSpace, row, col);
   };
 
   checkState = () => {

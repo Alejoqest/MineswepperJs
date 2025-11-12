@@ -12,7 +12,8 @@ export const elements = {
   colInput: document.querySelector("#col"),
   mineInput: document.querySelector("#numMines"),
   newGameRadios: document.querySelectorAll('[name="set-game"]'),
-  cell: (row, col) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`)
+  warning: document.querySelector("#warning-row p"),
+  cell: (row, col) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`),
 };
 
 export const setEvents = ({

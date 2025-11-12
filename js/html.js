@@ -14,17 +14,15 @@ export const renderBoard = (board) => {
   for (let i = 0; i < numRow; i++) {
     const row = createDivider(`row-${i}`, ["row"]);
     for (let n = 0; n < numCol; n++) {
-      const cell = createSpan(`c-${i}-${n}`);
-      cell.dataset.row = i;
-      cell.dataset.col = n;
+      const cell = createCell(i, n);
       row.appendChild(cell);
     }
     gameBoard.appendChild(row);
   }
 };
 
-export const editBoard = (game, curCell, position) => {
-  const cell = getCell(position.row, position.col);
+export const editBoard = (game, curCell, row, col) => {
+  const cell = elements.cell(row, col);
   cell.classList.toggle("flag", curCell.flaged);
   cell.classList.toggle("open", curCell.open);
   cell.innerText = curCell.flaged ? cellContent.flag : ``;
@@ -53,7 +51,7 @@ export const endBoard = (board, game) => {
       const isFlaged = curCell.flaged;
       const isMine = curCell.mine;
       const hasWon = !game.hasExploded && game.hasFinished;
-      const spanCell = getCell(r, c);
+      const spanCell = elements.cell(r, c);
       spanCell.classList.toggle("flag", isFlaged || (hasWon && isMine));
       spanCell.classList.toggle(
         "open",
@@ -82,9 +80,6 @@ export const endBoard = (board, game) => {
   }
 };
 
-const getCell = (row, col) => {
-  return elements.cell(row, col);
-};
 export const openSetting = () => {
   elements.modal.classList.add("active");
 };
@@ -104,10 +99,12 @@ const createDivider = (id, classes = []) => {
   return div;
 };
 
-const createSpan = (id) => {
-  const span = document.createElement("span");
-  span.id = id;
-  return span;
+const createCell = (row, col) => {
+  const cell = document.createElement("span");
+  cell.id = `c-${row}-${col}`;
+  cell.dataset.row = row;
+  cell.dataset.col = col;
+  return cell;
 };
 
 export const getInputs = () => {
@@ -138,9 +135,5 @@ export const setRemainingMines = (remainingMines) => {
 };
 
 export const setWarning = (value) => {
-  const div = document.querySelector("#warning-row");
-  div.innerHTML = "";
-  const warning = document.createElement("p");
-  warning.innerText = value;
-  div.append(warning);
+  elements.warning.innerText = value;
 };
