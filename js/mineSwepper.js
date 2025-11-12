@@ -153,18 +153,6 @@ export class MineSwepper {
     return this.hasFinished || this.hasExploded;
   };
 
-  getRemainingMines = () => {
-    const length = this.remainingMines.toString().length;
-    const value = `${
-      length == 3
-        ? `${this.remainingMines}`
-        : length == 2
-        ? `0${this.remainingMines}`
-        : `00${this.remainingMines}`
-    }`;
-    return value;
-  };
-
   getGame = () => {
     return {
       hasExploded: this.hasExploded,

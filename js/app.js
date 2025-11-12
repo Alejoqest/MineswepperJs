@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     onRightClick: (row, col) => {
       startGame(row, col);
       game.cellFlaged(row, col);
-      status.updateMines(game.getRemainingMines());
+      status.updateMines(game.remainingMines);
       status.updateStatus(game.getGame());
     },
   });
