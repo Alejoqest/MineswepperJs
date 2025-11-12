@@ -82,7 +82,7 @@ export const editBoard = (game, curCell, position) => {
         ? curCell.count > 0
           ? curCell.count
           : cellContent.blank
-        : game.hasExploted
+        : game.hasExploded
         ? cellContent.bomb
         : cellContent.flag
     }`;
@@ -96,18 +96,18 @@ export const endBoard = (board, game) => {
       const curCell = board[r][c];
       const isFlaged = curCell.flaged;
       const isMine = curCell.mine;
-      const hasWon = !game.hasExploted && game.hasFinished;
+      const hasWon = !game.hasExploded && game.hasFinished;
       const spanCell = getCell(r, c);
       spanCell.classList.toggle("flag", isFlaged || (hasWon && isMine));
       spanCell.classList.toggle(
         "open",
         game.hasFinished &&
           !isFlaged &&
-          ((hasWon && !isMine) || (game.hasExploted && !isFlaged))
+          ((hasWon && !isMine) || (game.hasExploded && !isFlaged))
       );
       spanCell.classList.toggle(
         "miss",
-        game.hasExploted && isFlaged && !isMine
+        game.hasExploded && isFlaged && !isMine
       );
       spanCell.classList.add("end");
       if (!isFlaged) {
@@ -117,7 +117,7 @@ export const endBoard = (board, game) => {
             ? curCell.count > 0
               ? curCell.count
               : cellContent.blank
-            : game.hasExploted
+            : game.hasExploded
             ? cellContent.bomb
             : cellContent.flag
         }`;
@@ -150,7 +150,7 @@ export const renderFace = (game) => {
   faceStatus.innerHTML = faces.click;
   setTimeout(() => {
     faceStatus.innerText = game.hasFinished
-      ? !game.hasExploted
+      ? !game.hasExploded
         ? faces.win
         : faces.loss
       : faces.normal;
