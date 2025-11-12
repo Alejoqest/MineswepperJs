@@ -9,12 +9,13 @@ export const statusContainers = [
 
 export const elements = {
   resetButton: document.querySelector("#face-container"),
+  faceStatus : document.querySelector("#face-container h1"),
   newGameButton: document.querySelector("#newGame"),
   closeButton: document.querySelector("#btn-close"),
   openButton: document.querySelector("#btn-open"),
   board: document.querySelector("#board"),
-  timerDisplay: document.querySelector("#time-container"),
-  mineDisplay: document.querySelector("#mine-container"),
+  timerDisplay: document.querySelector("#time"),
+  mineDisplay: document.querySelector("#mines"),
 };
 
 export const setEvents = ({

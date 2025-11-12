@@ -1,21 +1,21 @@
 import {
   cellContent,
+  elements,
   faces,
   gameInputs,
   statusContainers,
 } from "./htmlElements.js";
 
+
+
 export const renderMineSwepper = (
-  gamePanels,
+  //gamePanels,
   gameInputs,
-  callback,
-  funNewGame,
-  funPlayAgain
 ) => {
-  for (const panel of gamePanels) {
+  /*for (const panel of gamePanels) {
     const p = document.querySelector(`#${panel.id}`);
     p.value = panel.value;
-  }
+  }*/
 
   for (const input of gameInputs[0].children) {
     const i = document.querySelector(`#${input.id}`);
@@ -43,9 +43,9 @@ export const addEvents = (callback, funNewGame, funPlayAgain) => {
 export const renderBoard = (
   board,
   game,
-  cellAction,
-  cellRevealed,
-  cellFlaged
+  //cellAction,
+  //cellRevealed,
+  //cellFlaged
 ) => {
   const numRow = board.length;
   const numCol = board[0].length;
@@ -147,16 +147,8 @@ export const closeSetting = () => {
   settings.classList.remove("active");
 };
 
-export const renderFace = (game) => {
-  const faceStatus = document.querySelector("h1");
-  faceStatus.innerHTML = faces.click;
-  setTimeout(() => {
-    faceStatus.innerText = game.hasFinished
-      ? !game.hasExploded
-        ? faces.win
-        : faces.loss
-      : faces.normal;
-  }, 150);
+export const renderFace = (status) => {
+  elements.faceStatus.innerHTML = status;
 };
 
 const createDivider = (id, classes = []) => {

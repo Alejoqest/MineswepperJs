@@ -5,10 +5,7 @@ import {
   getInputs,
   getRadioValue,
   renderBoard,
-  renderFace,
   renderMineSwepper,
-  setRemainingMines,
-  setTimer,
   setWarning,
 } from "./html.js";
 import { gameInputs, gamePanels, gameValues, warnings } from "./htmlElements.js";
@@ -19,8 +16,6 @@ export class MineSwepper {
     this.numCols = cols;
     this.numMines = mines;
     this.board = [];
-    this.time = 0;
-    this.timer = null;
     this.remainingMines = mines;
     this.hasStarted = false;
     this.hasFinished = false;
@@ -57,24 +52,20 @@ export class MineSwepper {
 
     closeSetting();
 
-    this.killTimer();
-
     this.numRows = inputs.inputRow;
     this.numCols = inputs.inputCol;
     this.numMines = inputs.inputMines;
-
-    this.setupGame();
   };
 
   renderGame = () => {
-    const gP = gamePanels(this.getRemainingMines, this.getTime);
-    const values = {
+    //const gP = gamePanels(this.getRemainingMines, this.getTime);
+    const values = { 
       row: this.numRows,
       col: this.numCols,
       mines: this.numMines,
     };
     const gI = gameInputs(values);
-    renderMineSwepper(gP, gI, this.gameAction, this.setGame, this.setupGame);
+    renderMineSwepper(gI);
   };
 
   setupGame = () => {
@@ -90,25 +81,19 @@ export class MineSwepper {
         };
       }
     }
-    this.time = 0;
     this.hasStarted = false;
-    this.hasExploted = false;
+    this.hasExploded = false;
     this.hasFinished = false;
     this.remainingMines = this.numMines;
-    renderFace(this.getGame());
     this.renderGame();
     renderBoard(
       this.board,
       this.getGame(),
-      this.cellAction,
-      this.cellRevealed,
-      this.cellFlaged
     );
   };
 
   startGame = (curRow, curCol) => {
     this.hasStarted = true;
-    this.timer = setInterval(this.updateTimer, 1000);
     for (let i = 0; i < this.numMines; i++) {
       let row;
       let col;
@@ -174,9 +159,7 @@ export class MineSwepper {
       this.hasFinished = true;
       this.hasExploded = true;
       editBoard(this.getGame(), curSpace, { row, col });
-      this.killTimer();
       endBoard(this.board, this.getGame());
-      renderFace(this.getGame());
       return;
     }
 
@@ -190,14 +173,8 @@ export class MineSwepper {
         }
       }
     }
-
-    if (!curSpace.mine) {
-      this.checkState();
-    }
-
     //renderBoard(board, this.getGame(), cellAction, cellRevealed, cellFlaged);
     editBoard(this.getGame(), curSpace, { row, col });
-    renderFace(this.getGame());
   };
 
   cellFlaged = (row, col) => {
@@ -215,7 +192,6 @@ export class MineSwepper {
     this.remainingMines = curSpace.flaged
       ? this.remainingMines - 1
       : this.remainingMines + 1;
-    this.updateMines();
     editBoard(this.getGame(), curSpace, { row, col });
   };
 
@@ -228,19 +204,8 @@ export class MineSwepper {
       }
     }
     this.hasFinished = count == totalAmount - this.numMines;
-    this.hasFinished && this.killTimer();
-    this.hasFinished && endBoard(this.board, { has });
-  };
-
-  cellAction = (event, row, col, fun) => {
-    event.preventDefault();
-    !this.hasStarted && this.startGame(row, col);
-    fun(row, col);
-  };
-
-  gameAction = (fun) => {
-    this.killTimer();
-    fun();
+    this.hasFinished && endBoard(this.board, this.getGame());
+    return this.hasFinished || this.hasExploded;
   };
 
   getRemainingMines = () => {
@@ -253,31 +218,6 @@ export class MineSwepper {
         : `00${this.remainingMines}`
     }`;
     return value;
-  };
-
-  getTime = () => {
-    const length = this.time.toString().length;
-    const value = `${
-      length == 3
-        ? `${this.time}`
-        : length == 2
-        ? `0${this.time}`
-        : `00${this.time}`
-    }`;
-    return value;
-  };
-
-  killTimer = () => {
-    clearInterval(this.timer);
-  };
-
-  updateMines = () => {
-    setRemainingMines(this.getRemainingMines());
-  };
-
-  updateTimer = () => {
-    this.time++;
-    setTimer(this.getTime());
   };
 
   getGame = () => {
