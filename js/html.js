@@ -45,33 +45,22 @@ export const editBoard = (game, curCell, row, col) => {
 };
 
 export const endBoard = (board, game) => {
-  for (let r = 0; r < board.length; r++) {
-    for (let c = 0; c < board[r].length; c++) {
-      const curCell = board[r][c];
-      const isFlaged = curCell.flaged;
-      const isMine = curCell.mine;
-      const hasWon = !game.hasExploded && game.hasFinished;
-      const spanCell = elements.cell(r, c);
-      spanCell.classList.toggle("flag", isFlaged || (hasWon && isMine));
-      spanCell.classList.toggle(
+  const hasWon = !game.hasExploded && game.hasFinished;
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      const cell = board[row][col];
+      const span = elements.cell(row, col);
+      span.classList.toggle("flag", cell.flaged || (hasWon && cell.mine));
+      span.classList.toggle("miss", cell.flaged && !cell.mine);
+      span.classList.toggle(
         "open",
-        game.hasFinished &&
-          !isFlaged &&
-          ((hasWon && !isMine) || (game.hasExploded && !isFlaged))
+        cell.open || (game.hasExploded && cell.mine && !cell.flaged)
       );
-      spanCell.classList.toggle(
-        "miss",
-        game.hasExploded && isFlaged && !isMine
-      );
-      spanCell.classList.add("end");
-      if (!isFlaged) {
-        !isMine && spanCell.classList.add(`count-${curCell.count}`);
-        spanCell.innerText = `${
-          !isMine
-            ? curCell.count > 0
-              ? curCell.count
-              : cellContent.blank
-            : game.hasExploded
+      if (!cell.flaged && !cell.open) {
+        span.innerText = `${
+          !cell.mine
+            ? cellContent.blank
+            : game.hasExploded && cell.mine
             ? cellContent.bomb
             : cellContent.flag
         }`;

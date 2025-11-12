@@ -32,18 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
     onClose: closeSetting,
     onClick: (row, col) => {
       startGame(row, col);
-      game.cellRevealed(row, col);
-      status.updateStatus(game.getGame());
-      const hasFinished = game.checkState();
-      if (hasFinished) {
-        status.killTimer();
+      const valid = game.cellRevealed(row, col);
+      if (valid) {
+          const hasFinished = game.checkState();
+          status.updateStatus(game.getGame());
+          if (hasFinished) {
+            status.killTimer();
+          }
       }
     },
     onRightClick: (row, col) => {
       startGame(row, col);
-      game.cellFlaged(row, col);
-      status.updateMines(game.remainingMines);
-      status.updateStatus(game.getGame());
+      const valid = game.cellFlaged(row, col);
+      if (valid) {
+          status.updateMines(game.remainingMines);
+          status.updateStatus(game.getGame());
+      }
     },
   });
 

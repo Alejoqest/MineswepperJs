@@ -97,7 +97,7 @@ export class MineSwepper {
       this.board[row][col].flaged ||
       this.hasFinished
     )
-      return;
+      return false;
     const curSpace = this.board[row][col];
     curSpace.open = true;
 
@@ -105,8 +105,7 @@ export class MineSwepper {
       this.hasFinished = true;
       this.hasExploded = true;
       editBoard(this.getGame(), curSpace, row, col);
-      endBoard(this.board, this.getGame());
-      return;
+      return true;
     }
 
     if (!this.hasFinished && curSpace.count === 0) {
@@ -120,6 +119,7 @@ export class MineSwepper {
       }
     }
     editBoard(this.getGame(), curSpace, row, col);
+    return true;
   };
 
   cellFlaged = (row, col) => {
@@ -131,26 +131,30 @@ export class MineSwepper {
       this.board[row][col].open ||
       this.hasFinished
     )
-      return;
+      return false;
     const curSpace = this.board[row][col];
     curSpace.flaged = !curSpace.flaged;
     this.remainingMines = curSpace.flaged
       ? this.remainingMines - 1
       : this.remainingMines + 1;
     editBoard(this.getGame(), curSpace, row, col);
+    return true;
   };
 
   checkState = () => {
-    const totalAmount = this.numRows * this.numCols;
-    let count = 0;
-    for (const row of this.board) {
-      for (const cell of row) {
-        count = cell.open ? count + 1 : count;
-      }
+    if (!this.hasFinished) {     
+        const totalAmount = this.numRows * this.numCols;
+        let count = 0;
+        for (const row of this.board) {
+          for (const cell of row) {
+            count = cell.open ? count + 1 : count;
+          }
+        }
+        this.hasFinished = count == totalAmount - this.numMines;
     }
-    this.hasFinished = count == totalAmount - this.numMines;
-    this.hasFinished && endBoard(this.board, this.getGame());
-    return this.hasFinished || this.hasExploded;
+    const finished = this.hasExploded || this.hasFinished;
+    finished && endBoard(this.board, this.getGame());
+    return finished;
   };
 
   getGame = () => {
