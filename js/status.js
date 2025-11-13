@@ -5,7 +5,6 @@ export class Status {
   constructor() {
     this.time = 0;
     this.timer = null;
-    this.hasUpdatedToFinished = false;
   }
 
   start = (mines) => {
@@ -13,7 +12,6 @@ export class Status {
     this.timer = null;
     elements.mineDisplay.value = this.getRemainingMines(mines);
     elements.timerDisplay.value = this.getTime();
-    this.hasUpdatedToFinished = false;
   };
 
   updateStatus = (game) => {
@@ -23,12 +21,6 @@ export class Status {
       click: `😯`,
       win: `😎`,
     };
-
-    if (this.hasUpdatedToFinished) {
-      const status = !game.hasExploded ? faces.win : faces.loss;
-      renderFace(status);
-      return;
-    }
 
     renderFace(faces.click);
 
@@ -40,7 +32,6 @@ export class Status {
         : faces.normal;
       renderFace(status);
     }, 150);
-    if (game.hasFinished || game.hasExploded) this.hasUpdatedToFinished = true;
   };
 
   getRemainingMines = (remainingMines) => {
