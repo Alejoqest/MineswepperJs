@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MineSwepper</title>
-    <link rel="stylesheet" href="index.css" />
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon" />
   </head>
 
   <body>
@@ -23,7 +23,40 @@
           </div>
         </div>
       </div>
-      <div class="board"></div>
+      <div id="board" class="board">
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+        <div class="row">
+          <span></span><span></span><span></span><span></span><span></span
+          ><span></span><span></span><span></span>
+        </div>
+      </div>
       <div class="bottom-game">
         <button class="btn" id="btn-open">Settings</button>
       </div>
@@ -94,14 +127,14 @@
             </table>
           </form>
         </div>
+        <div id="warning-row" class="bottom-row"><p></p></div>
         <div id="second-row" class="bottom-row">
           <div id="newGame-divider" class="">
             <input type="button" class="btn" id="newGame" value="Update" />
           </div>
         </div>
-        <div id="warning-row" class="bottom-row"></div>
       </div>
     </div>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>
