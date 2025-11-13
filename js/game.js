@@ -1,91 +1,29 @@
-import {
-  closeSetting,
-  editBoard,
-  endBoard,
-  getInputs,
-  getRadioValue,
-  renderBoard,
-  renderFace,
-  renderMineSwepper,
-  setRemainingMines,
-  setTimer,
-  setWarning,
-} from "./html.js";
-import {
-  gameInputs,
-  gamePanels,
-  gameValues,
-  warnings,
-} from "./htmlElements.js";
+import { editBoard, endBoard, renderBoard } from "./html.js";
 
-export const mineSwepper = () => {
-  let board = [];
-  let time = 0;
-  let timer;
-  const game = {
-    numRow: 8,
-    numCol: 8,
-    numMines: 10,
-    hasStarted: false,
-    hasFinished: false,
-    hasExploted: false,
-  };
-  let remainingMines = game.numMines;
+export class Game {
+  constructor(rows, cols, mines) {
+    this.numRows = rows;
+    this.numCols = cols;
+    this.numMines = mines;
+    this.board = [];
+    this.remainingMines = mines;
+    this.hasStarted = false;
+    this.hasFinished = false;
+    this.hasExploded = false;
+  }
 
-  const setGame = () => {
-    const val = getRadioValue();
-
-    setWarning("");
-
-    const inputs = getInputs();
-
-    if (val != "custom") {
-      const values = gameValues;
-      inputs.inputRow = values[val].row;
-      inputs.inputCol = values[val].column;
-      inputs.inputMines = values[val].mines;
-    }
-
-    if (val == "custom") {
-      if (!inputs.inputRow || !inputs.inputCol || !inputs.inputMines) {
-        setWarning(warnings.void);
-        return;
-      }
-
-      const total = inputs.inputCol * inputs.inputRow;
-
-      if (inputs.inputMines > total) {
-        setWarning(warnings.mines);
-        return;
-      }
-    }
-
-    closeSetting();
-
-    game.numRow = inputs.inputRow;
-    game.numCol = inputs.inputCol;
-    game.numMines = inputs.inputMines;
-
-    setupGame();
+  setGame = (rows, cols, mines) => {
+    this.numRows = rows;
+    this.numCols = cols;
+    this.numMines = mines;
   };
 
-  const renderGame = () => {
-    const gP = gamePanels(getRemainingMines, getTime);
-    const values = {
-      row: game.numRow,
-      col: game.numCol,
-      mines: game.numMines,
-    };
-    const gI = gameInputs(values);
-    renderMineSwepper(gP, gI, gameAction, setGame, setupGame);
-  };
-
-  const setupGame = () => {
-    board = [];
-    for (let i = 0; i < game.numRow; i++) {
-      board[i] = [];
-      for (let n = 0; n < game.numCol; n++) {
-        board[i][n] = {
+  setupGame = () => {
+    this.board = [];
+    for (let i = 0; i < this.numRows; i++) {
+      this.board[i] = [];
+      for (let n = 0; n < this.numCols; n++) {
+        this.board[i][n] = {
           open: false,
           mine: false,
           flaged: false,
@@ -93,53 +31,49 @@ export const mineSwepper = () => {
         };
       }
     }
-    time = 0;
-    game.hasStarted = false;
-    game.hasExploted = false;
-    game.hasFinished = false;
-    remainingMines = game.numMines;
-    renderFace(game);
-    renderGame();
-    renderBoard(board, game, cellAction, cellRevealed, cellFlaged);
+    this.hasStarted = false;
+    this.hasExploded = false;
+    this.hasFinished = false;
+    this.remainingMines = this.numMines;
+    renderBoard(this.board);
   };
 
-  const startGame = (curRow, curCol) => {
-    game.hasStarted = true;
-    timer = setInterval(updateTimer, 1000);
-    for (let i = 0; i < game.numMines; i++) {
+  startGame = (curRow, curCol) => {
+    this.hasStarted = true;
+    for (let i = 0; i < this.numMines; i++) {
       let row;
       let col;
       do {
-        row = Math.floor(Math.random() * game.numRow);
-        col = Math.floor(Math.random() * game.numCol);
-      } while ((row == curRow && col == curCol) || board[row][col].mine);
-      board[row][col].mine = true;
+        row = Math.floor(Math.random() * this.numRows);
+        col = Math.floor(Math.random() * this.numCols);
+      } while ((row == curRow && col == curCol) || this.board[row][col].mine);
+      this.board[row][col].mine = true;
     }
-    for (let i = 0; i < game.numRow; i++) {
-      for (let n = 0; n < game.numCol; n++) {
-        if (!board[curRow][curCol].mine) {
+    for (let i = 0; i < this.numRows; i++) {
+      for (let n = 0; n < this.numCols; n++) {
+        if (!this.board[curRow][curCol].mine) {
           let count = 0;
-          const spaces = getAroundSpaces(i, n);
+          const spaces = this.getAroundSpaces(i, n);
           for (const s of spaces) {
             const nx = s[0];
             const ny = s[1];
             if (
               nx >= 0 &&
-              nx < game.numRow &&
+              nx < this.numRows &&
               ny >= 0 &&
-              ny < game.numCol &&
-              board[nx][ny].mine
+              ny < this.numCols &&
+              this.board[nx][ny].mine
             ) {
               count++;
             }
           }
-          board[i][n].count = count;
+          this.board[i][n].count = count;
         }
       }
     }
   };
 
-  const getAroundSpaces = (x, y) => {
+  getAroundSpaces = (x, y) => {
     const spaces = [
       [x - 1, y - 1],
       [x - 1, y],
@@ -153,123 +87,81 @@ export const mineSwepper = () => {
     return spaces;
   };
 
-  const cellRevealed = (row, col) => {
+  cellRevealed = (row, col) => {
     if (
       row < 0 ||
-      row > game.numRow ||
+      row > this.numRows ||
       col < 0 ||
-      col > game.numCol ||
-      board[row][col].open ||
-      board[row][col].flaged ||
-      game.hasFinished
+      col > this.numCols ||
+      this.board[row][col].open ||
+      this.board[row][col].flaged ||
+      this.hasFinished
     )
-      return;
-    const curSpace = board[row][col];
+      return false;
+    const curSpace = this.board[row][col];
     curSpace.open = true;
 
     if (curSpace.mine) {
-      game.hasFinished = true;
-      game.hasExploted = true;
-      editBoard(game, curSpace, { row, col });
-      killTimer();
-      endBoard(board, game);
-      renderFace(game);
-      return;
+      this.hasFinished = true;
+      this.hasExploded = true;
+      editBoard(this.getGame(), curSpace, row, col);
+      return true;
     }
 
-    if (!game.hasFinished && curSpace.count === 0) {
-      const spaces = getAroundSpaces(row, col);
+    if (!this.hasFinished && curSpace.count === 0) {
+      const spaces = this.getAroundSpaces(row, col);
       for (const space of spaces) {
         const nx = space[0];
         const ny = space[1];
-        if (nx >= 0 && nx < game.numRow && ny >= 0 && ny < game.numCol) {
-          cellRevealed(nx, ny);
+        if (nx >= 0 && nx < this.numRows && ny >= 0 && ny < this.numCols) {
+          this.cellRevealed(nx, ny);
         }
       }
     }
-
-    if (!curSpace.mine) {
-      checkState();
-    }
-
-    //renderBoard(board, game, cellAction, cellRevealed, cellFlaged);
-    editBoard(game, curSpace, { row, col });
-    renderFace(game);
+    editBoard(this.getGame(), curSpace, row, col);
+    return true;
   };
 
-  const cellFlaged = (row, col) => {
+  cellFlaged = (row, col) => {
     if (
       row < 0 ||
-      row > game.numRow ||
+      row > this.numRows ||
       col < 0 ||
-      col > game.numCol ||
-      board[row][col].open ||
-      game.hasFinished
+      col > this.numCols ||
+      this.board[row][col].open ||
+      this.hasFinished
     )
-      return;
-    const curSpace = board[row][col];
+      return false;
+    const curSpace = this.board[row][col];
     curSpace.flaged = !curSpace.flaged;
-    remainingMines = curSpace.flaged ? remainingMines - 1 : remainingMines + 1;
-    updateMines();
-    editBoard(game, curSpace, { row, col });
+    this.remainingMines = curSpace.flaged
+      ? this.remainingMines - 1
+      : this.remainingMines + 1;
+    editBoard(this.getGame(), curSpace, row, col);
+    return true;
   };
 
-  const checkState = () => {
-    const totalAmount = game.numRow * game.numCol;
-    let count = 0;
-    for (const row of board) {
-      for (const cell of row) {
-        count = cell.open ? count + 1 : count;
-      }
+  checkState = () => {
+    if (!this.hasFinished) {     
+        const totalAmount = this.numRows * this.numCols;
+        let count = 0;
+        for (const row of this.board) {
+          for (const cell of row) {
+            count = cell.open ? count + 1 : count;
+          }
+        }
+        this.hasFinished = count == totalAmount - this.numMines;
     }
-    game.hasFinished = count == totalAmount - game.numMines;
-    game.hasFinished && killTimer();
-    game.hasFinished && endBoard(board, game);
+    const finished = this.hasExploded || this.hasFinished;
+    finished && endBoard(this.board, this.getGame());
+    return finished;
   };
 
-  const cellAction = (event, row, col, fun) => {
-    event.preventDefault();
-    !game.hasStarted && startGame(row, col);
-    fun(row, col);
+  getGame = () => {
+    return {
+      hasExploded: this.hasExploded,
+      hasFinished: this.hasFinished,
+      hasStarted: this.hasStarted,
+    };
   };
-
-  const gameAction = (fun) => {
-    killTimer();
-    fun();
-  };
-
-  const getRemainingMines = () => {
-    const length = remainingMines.toString().length;
-    const value = `${
-      length == 3
-        ? `${remainingMines}`
-        : length == 2
-        ? `0${remainingMines}`
-        : `00${remainingMines}`
-    }`;
-    return value;
-  };
-
-  const getTime = () => {
-    const length = time.toString().length;
-    const value = `${
-      length == 3 ? `${time}` : length == 2 ? `0${time}` : `00${time}`
-    }`;
-    return value;
-  };
-
-  const killTimer = () => {
-    clearInterval(timer);
-  };
-
-  const updateMines = () => {
-    setRemainingMines(getRemainingMines());
-  };
-
-  const updateTimer = () => {
-    time++;
-    setTimer(getTime());
-  };
-
-  setupGame();
-};
+}

@@ -168,6 +168,19 @@ span,
     border: 5px outset var(--c-bg-dr);
 }
 
+.open {
+    background-color: var(--c-bg);
+    border: 1px solid var(--c-bg-d);
+}
+
+.bomb {
+    background-color: darkred;
+}
+
+.flag.miss {
+    background-color: lightpink;
+}
+
 span.count-1 {
     color: var(--c-n-1);
 }
@@ -223,10 +236,6 @@ span.count-8 {
     margin-top: .25rem;
 }
 
-.open {
-    background-color: var(--c-bg);
-    border: 1px solid var(--c-bg-d);
-}
 
 #modal {
     display: none;
@@ -268,12 +277,4 @@ th {
     border: none;
     background: none;
     float: right;
-}
-
-.bomb {
-    background-color: darkred;
-}
-
-.flag.miss {
-    background-color: lightpink;
 }
