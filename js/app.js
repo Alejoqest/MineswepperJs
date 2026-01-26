@@ -3,6 +3,7 @@ import { setEvents } from "./htmlElements.js";
 import { Game } from "./game.js";
 import { Settings } from "./setting.js";
 import { Status } from "./status.js";
+import { Solver } from "./solver.js";
 
 let row = 8;
 let col = 8;
@@ -13,11 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const game = new Game(row, col, mines);
   const status = new Status();
   const setting = new Settings(row, col, mines);
+  const solver = new Solver(row, col, mines);
 
   setEvents({
     onReset: () => {
       status.killTimer();
       game.setupGame();
+      solver.restart(row, col, mines);
       init();
     },
     onNewGame: () => {
@@ -38,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
           status.updateStatus(game.getGame());
           if (hasFinished) {
             status.killTimer();
+            solver.killTimer();
           }
       }
     },
@@ -63,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     game.setupGame();
     status.start(game.numMines);
     status.updateStatus(game.getGame());
+    solver.start();
   };
 
   init();
