@@ -32,8 +32,8 @@ export class Solver {
   solve = () => {
     let hasChosen = false;
 
-    const open = document.querySelectorAll(".open");
-
+    const open = elements.openCells();
+    
     const hidden = document.querySelectorAll(":not(.open):not(.flag)");
 
     const flags = document.querySelectorAll(".flag");
@@ -98,7 +98,7 @@ export class Solver {
   }
 
   getBorder = () => {
-    const cells = document.querySelectorAll(".open");
+    const cells = elements.openCells();
     const border = new Set();
 
     cells.forEach((c) => {
