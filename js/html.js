@@ -115,6 +115,18 @@ export const getRadioValue = () => {
   return selectedValue;
 };
 
+export const getSolverValue = () => {
+  let selectedValue;
+  console.log(elements.solverRadios)
+  for (const radio of elements.solverRadios) {
+    if (radio.checked) {
+      selectedValue = radio.value;
+      break;
+    }
+  }
+  return selectedValue;
+}
+
 export const setTimer = (time) => {
   elements.timerDisplay.value = time;
 };

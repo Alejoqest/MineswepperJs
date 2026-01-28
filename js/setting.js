@@ -2,20 +2,27 @@ import {
   closeSetting,
   getInputs,
   getRadioValue,
+  getSolverValue,
   setInputs,
   setWarning,
 } from "./html.js";
+import { elements } from "./htmlElements.js";
 
 export class Settings {
   constructor(row, col, mines) {
     document.getElementsByName("set-game")[0].checked = true;
+    elements.solverRadios[0].checked = true;
     setInputs(row, col, mines);
   }
 
   setGame = () => {
     const val = getRadioValue();
 
+    const solver = getSolverValue();
+
     setWarning("");
+
+    const solverValue = (solver == "solver");
 
     if (val != "custom") {
       const values = gameValues;
@@ -43,6 +50,7 @@ export class Settings {
       row: getInputs().inputRow,
       col: getInputs().inputCol,
       mines: getInputs().inputMines,
+      sol: solverValue
     };
   };
 }

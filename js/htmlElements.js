@@ -12,6 +12,7 @@ export const elements = {
   colInput: document.querySelector("#col"),
   mineInput: document.querySelector("#numMines"),
   newGameRadios: document.querySelectorAll('[name="set-game"]'),
+  solverRadios: document.querySelectorAll('[name="set-solver"]'),
   warning: document.querySelector("#warning-row p"),
   cell: (row, col) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`),
   openCells: () => document.querySelectorAll(".open")

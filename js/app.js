@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const status = new Status();
   const setting = new Settings(row, col, mines);
   const solver = new Solver(row, col, mines);
+  let solverActive = false;
 
   setEvents({
     onReset: () => {
@@ -25,9 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     onNewGame: () => {
       status.killTimer();
-      const { row, col, mines, error } = setting.setGame();
+      const { row, col, mines, sol, error } = setting.setGame();
       if (!error) {
         game.setGame(row, col, mines);
+        solverActive = sol;
+        console.log(sol)
         init();
       }
     },
@@ -67,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     game.setupGame();
     status.start(game.numMines);
     status.updateStatus(game.getGame());
-    solver.start();
+    (solverActive) && solver.start();
   };
 
   init();

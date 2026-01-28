@@ -19,10 +19,9 @@ export class Solver {
     clearInterval(this.timer);
   }
 
-  start = (time = 300) => {
-    this.chose();
-
+  start = (time = 500) => {
     setTimeout(() => {
+      this.chose();
       this.timer = setInterval(() => {
         this.solve();
       }, time);
@@ -33,7 +32,7 @@ export class Solver {
     let hasChosen = false;
 
     const open = elements.openCells();
-    
+
     const hidden = document.querySelectorAll(":not(.open):not(.flag)");
 
     const flags = document.querySelectorAll(".flag");
@@ -175,12 +174,8 @@ export class Solver {
     } while (!valid);
   };
 
-  run = () => {};
-
   click = (row, col) => {
     const cell = elements.cell(row, col);
-    //console.log(row + " " + col);
-    //console.log(cell)
     if (
       cell &&
       !cell.classList.contains("open") &&
@@ -189,8 +184,6 @@ export class Solver {
       const clickEvent = new MouseEvent("click", {
         bubbles: true,
         cancelable: true,
-        //clientX: cell.getBoundingClientRect().left + 25,
-        //clientY: cell.getBoundingClientRect().top + 25,
       });
       cell.dispatchEvent(clickEvent);
       return true;
@@ -198,19 +191,5 @@ export class Solver {
       console.log("Cell does not exist.");
       return false;
     }
-  };
-
-  getAroundSpaces = (x, y) => {
-    const spaces = [
-      [x - 1, y - 1],
-      [x - 1, y],
-      [x - 1, y + 1],
-      [x, y - 1],
-      [x, y + 1],
-      [x + 1, y - 1],
-      [x + 1, y],
-      [x + 1, y + 1],
-    ];
-    return spaces;
   };
 }
