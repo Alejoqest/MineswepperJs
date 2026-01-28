@@ -228,6 +228,10 @@ span.count-8 {
     margin: 0px 0px 20px 0px;
 }
 
+form > div {
+    text-align: start;
+}
+
 .input-row {
     margin: 0px 0px 20px 0px;
 }
@@ -235,7 +239,6 @@ span.count-8 {
 #second-row {
     margin-top: .25rem;
 }
-
 
 #modal {
     display: none;
