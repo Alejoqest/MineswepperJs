@@ -14,6 +14,7 @@ export const elements = {
   newGameRadios: document.querySelectorAll('[name="set-game"]'),
   warning: document.querySelector("#warning-row p"),
   cell: (row, col) => document.querySelector(`[data-row="${row}"][data-col="${col}"]`),
+  openCells: document.querySelectorAll(".open")
 };
 
 export const setEvents = ({
