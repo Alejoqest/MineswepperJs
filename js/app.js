@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!error) {
         game.setGame(row, col, mines);
         solverActive = sol;
-        console.log(sol)
         init();
       }
     },

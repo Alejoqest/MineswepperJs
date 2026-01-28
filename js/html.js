@@ -117,7 +117,6 @@ export const getRadioValue = () => {
 
 export const getSolverValue = () => {
   let selectedValue;
-  console.log(elements.solverRadios)
   for (const radio of elements.solverRadios) {
     if (radio.checked) {
       selectedValue = radio.value;
