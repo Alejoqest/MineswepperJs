@@ -288,4 +288,7 @@ th {
     body {
         margin: 0;
     }
+    #modal {
+        padding-top: 0;
+    }
 }
