@@ -136,9 +136,10 @@ input.setting {
 }
 
 #settings {
-    max-width: 350px;
-    align-items: center;
+    /*max-width: 350px;
+    align-items: center;*/
     height: fit-content;
+    position: relative;
 }
 
 #warning-row p {
@@ -233,6 +234,10 @@ form > div {
     text-align: start;
 }
 
+#new-game-form {
+    overflow-x: auto;
+}
+
 .input-row {
     margin: 0px 0px 20px 0px;
 }
@@ -260,10 +265,6 @@ form > div {
     justify-content: center;
 }
 
-#settings {
-    position: relative;
-}
-
 table {
     border-collapse: collapse;
 }
@@ -281,4 +282,10 @@ th {
     border: none;
     background: none;
     float: right;
+}
+
+@media screen and (max-width : 300px) {
+    body {
+        margin: 0;
+    }
 }
