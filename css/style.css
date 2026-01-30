@@ -99,7 +99,7 @@ input.setting {
 
 .board {
     margin: 1rem 0rem;
-    width: fit-content;
+    overflow: scroll;
 }
 
 .top-game, .bottom-game, .board {
@@ -147,6 +147,7 @@ input.setting {
 
 .row {
     display: flex;
+    width: fit-content;
 }
 
 span {
