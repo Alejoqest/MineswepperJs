@@ -31,6 +31,19 @@ body {
     flex-wrap: wrap;
 }
 
+.credits-section {
+    width: 100%;
+    text-align: center;
+}
+
+.credits-section > h3 > a {
+    color: var(--c-bg);
+}
+
+.credits-section > h3 > a:hover {
+    color: var(--c-bg-dr);
+}
+
 /* top panels and buttons */
 
 input.panel {
